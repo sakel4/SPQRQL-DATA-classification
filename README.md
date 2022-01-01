@@ -1,39 +1,55 @@
 # ClassificationApp
 
-Prerequisites:
+> ## Prerequisites:
 
 -   Python:
     -   Python: 3.9.9
 -   SPARQLWrapper:
-    -   install: pip install sparqlwrapper
+    ```bash
+    pip install sparqlwrapper
+    ```
 -   Flask:
-    -   install: pip install Flask
+    ```bash
+    install: pip install Flask
+    ```
 
-Create Enviroment:
+> ## Create Environment:
 
 -   Linux/Mac OS:
-    -   $ mkdir myproject
-    -   $ cd myproject
-    -   $ python3 -m venv venv
+    ```bash
+    $ mkdir myproject
+    $ cd myproject
+    $ python3 -m venv venv
+    ```
 -   Windows:
-    -   $ mkdir myproject
-    -   $ cd myproject
-    -   $ py -3 -m venv venv
+    ```bash
+    $ mkdir myproject
+    $ cd myproject
+    $ py -3 -m venv venv
+    ```
 
-Activate Enviroment:
+> ## Activate Environment:
 
 -   Linux/Mac OS:
-    -   $ . venv/bin/activate
+    ```bash
+    $ . venv/bin/activate
+    ```
 -   Windows:
-    -   $ venv\Scripts\activate
+    ```bash
+    $ venv\Scripts\activate
+    ```
 
-Initialize Server:
+> ## Initialize Server:
 
 -   Linux/Mac OS:
-    -   $ export FLASK_RUN_PORT=5000
-    -   $ export FLASK_APP=**filename** (only the first time)
-    -   $ flask run
+    ```bash
+    $ export FLASK_RUN_PORT=5000
+    $ export FLASK_APP=**filename** (only the first time)
+    $ flask run
+    ```
 -   Windows(CMD):
-    -   $ set FLASK_RUN_PORT=5000
-    -   $ set FLASK_APP=**filename** (only the first time)
-    -   $ flask run
+    ```bash
+    $ set FLASK_RUN_PORT=5000
+    $ set FLASK_APP=**filename** (only the first time)
+    $ flask run
+    ```
