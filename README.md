@@ -44,12 +44,12 @@
 -   Linux/Mac OS:
     ```bash
     $ export FLASK_RUN_PORT=5000
-    $ export FLASK_APP=**filename** (only the first time)
+    $ export FLASK_APP=__filename__ (only the first time)
     $ flask run
     ```
 -   Windows(CMD):
     ```bash
     $ set FLASK_RUN_PORT=5000
-    $ set FLASK_APP=**filename** (only the first time)
+    $ set FLASK_APP=__filename__ (only the first time)
     $ flask run
     ```
