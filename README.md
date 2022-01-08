@@ -12,8 +12,14 @@
     ```bash
     install: pip install Flask
     ```
+-   Scikit-learn:
+    ```bash
+    install: pip install scikit-learn
+    ```
+-   Pandas:
+    `bash install: pip install pandas `
 
-> ## Create Environment:
+    > ## Create Environment:
 
 -   Linux/Mac OS:
     ```bash
