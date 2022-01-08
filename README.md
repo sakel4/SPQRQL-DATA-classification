@@ -17,7 +17,9 @@
     install: pip install scikit-learn
     ```
 -   Pandas:
-    `bash install: pip install pandas `
+    ```bash 
+    install: pip install pandas 
+    ```
 
     > ## Create Environment:
 
