@@ -10,15 +10,16 @@
     ```
 -   Flask:
     ```bash
-    install: pip install Flask
+    pip install Flask
     ```
 -   Scikit-learn:
     ```bash
-    install: pip install scikit-learn
+    pip install scikit-learn
     ```
 -   Pandas:
-    ```bash 
-    install: pip install pandas 
+
+    ```bash
+    pip install pandas
     ```
 
     > ## Create Environment:
@@ -52,12 +53,14 @@
 -   Linux/Mac OS:
     ```bash
     $ export FLASK_RUN_PORT=5000
-    $ export FLASK_APP=__filename__ (only the first time)
+    $ export FLASK_APP=__filename__
+    $ export FLASK_ENV=development
     $ flask run
     ```
 -   Windows(CMD):
     ```bash
     $ set FLASK_RUN_PORT=5000
-    $ set FLASK_APP=__filename__ (only the first time)
+    $ set FLASK_APP=__filename__
+    $ set FLASK_ENV=development
     $ flask run
     ```
