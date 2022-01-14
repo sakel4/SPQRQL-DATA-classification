@@ -13,7 +13,7 @@ class retrieveService:
     def __init__(self):
         self.retrieveData = retrieve()
     
-    #BNF
+    #region #BNF
     def getAllBNF(self):
         self.retrieveData.setGraph(self.defaultGraphs[0])
         response = self.retrieveData.getAll()
@@ -28,8 +28,9 @@ class retrieveService:
         self.retrieveData.setGraph(self.defaultGraphs[0])
         response = self.retrieveData.getAllPredicates()
         return response
+    #endregion
 
-    #DBpedia
+    #region #DBpedia
     def getAllDBPedia(self):
         self.retrieveData.setGraph(self.defaultGraphs[1])
         response = self.retrieveData.getAll()
@@ -44,8 +45,9 @@ class retrieveService:
         self.retrieveData.setGraph(self.defaultGraphs[1])
         response = self.retrieveData.getAllPredicates()
         return response
+    #endregion
 
-    #Conference
+    #region #Conference
     def getAllConference(self):
         self.retrieveData.setGraph(self.defaultGraphs[2])
         response = self.retrieveData.getAll()
@@ -60,8 +62,9 @@ class retrieveService:
         self.retrieveData.setGraph(self.defaultGraphs[2])
         response = self.retrieveData.getAllPredicates()
         return response
+    #endregion
     
-    #HustMunic
+    #region #HustMunic
     def getAllHistMunic(self):
         self.retrieveData.setGraph(self.defaultGraphs[3])
         response = self.retrieveData.getAll()
@@ -76,3 +79,4 @@ class retrieveService:
         self.retrieveData.setGraph(self.defaultGraphs[3])
         response = self.retrieveData.getAllPredicates()
         return response
+    #endregion
