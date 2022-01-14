@@ -1,17 +1,18 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
-
+import json
 
 class retrieve:
 
     domain = "http://83.212.77.24:8890/sparql/"
-
+    #constructor
     def __init__(self):
         try:
             self.sparql = SPARQLWrapper(self.domain)
         except:
             print("failed to initialize connection with sparql virtuoso")
         self.sparql.setReturnFormat(JSON)
-
+        
+    #functions
     def setGraph(self, graphURl):
         self.sparql.addParameter("default-graph-uri", graphURl)
 
@@ -19,22 +20,26 @@ class retrieve:
         offset = 0
         response = []
         while True:
-            self.sparql.setQuery(
-                """
+            self.sparql.setQuery("""
             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             SELECT ?x ?y ?z
-            WHERE { ?x ?y ?z }"""
+            WHERE { ?x ?y ?z } offset """
                 + str(offset)
-                + """LIMIT 10000"""
-            )
+                + """LIMIT 10000""")
             results = self.sparql.query().convert()
+            # print(offset)
             response.extend(results["results"]["bindings"])
             if len(results["results"]["bindings"]) == 0:
                 break
-            elif offset == 0:
-                offset = offset + len(results["results"]["bindings"])
+            else:
+                print("offset: " + str(offset) + " length: "+ str(len(results["results"]["bindings"])))
+                offset = offset + (len(results["results"]["bindings"]))
 
-        return response
+        jsonResponse = {
+            "instances": response,
+            "size": len(response)
+        }
+        return json.dumps(jsonResponse)
 
     def getTypes(self):
         self.sparql.setQuery(
@@ -46,8 +51,12 @@ class retrieve:
         """
         )
         results = self.sparql.query().convert()
-        return results["results"]["bindings"]
-
+        jsonResponse = {
+            "instances": results["results"]["bindings"],
+            "size": len(results["results"]["bindings"])
+        }
+        return jsonResponse
+        
     def getAllPredicates(self):
         self.sparql.setQuery(
             """
@@ -58,4 +67,8 @@ class retrieve:
         """
         )
         results = self.sparql.query().convert()
-        return results["results"]["bindings"]
+        jsonResponse = {
+            "instances": results["results"]["bindings"],
+            "size": len(results["results"]["bindings"])
+        }
+        return jsonResponse

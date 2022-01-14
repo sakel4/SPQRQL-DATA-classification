@@ -1,4 +1,4 @@
-from Retrieve import retrieve
+from .retrieve import retrieve
 
 
 class retrieveService:
@@ -12,8 +12,67 @@ class retrieveService:
 
     def __init__(self):
         self.retrieveData = retrieve()
-
+    
+    #BNF
     def getAllBNF(self):
         self.retrieveData.setGraph(self.defaultGraphs[0])
-        response = self.retrive.getAll()
-        print(len(response))
+        response = self.retrieveData.getAll()
+        return response
+
+    def getBNFtypes(self):
+        self.retrieveData.setGraph(self.defaultGraphs[0])
+        response = self.retrieveData.getTypes()
+        return response
+    
+    def getBNFpredicates(self):
+        self.retrieveData.setGraph(self.defaultGraphs[0])
+        response = self.retrieveData.getAllPredicates()
+        return response
+
+    #DBpedia
+    def getAllDBPedia(self):
+        self.retrieveData.setGraph(self.defaultGraphs[1])
+        response = self.retrieveData.getAll()
+        return response
+    
+    def getDBPediaTypes(self):
+        self.retrieveData.setGraph(self.defaultGraphs[1])
+        response = self.retrieveData.getTypes()
+        return response
+    
+    def getDBPediaPredicates(self):
+        self.retrieveData.setGraph(self.defaultGraphs[1])
+        response = self.retrieveData.getAllPredicates()
+        return response
+
+    #Conference
+    def getAllConference(self):
+        self.retrieveData.setGraph(self.defaultGraphs[2])
+        response = self.retrieveData.getAll()
+        return response
+
+    def getConferenceTypes(self):
+        self.retrieveData.setGraph(self.defaultGraphs[2])
+        response = self.retrieveData.getTypes()
+        return response
+    
+    def getConferencePredicates(self):
+        self.retrieveData.setGraph(self.defaultGraphs[2])
+        response = self.retrieveData.getAllPredicates()
+        return response
+    
+    #HustMunic
+    def getAllHistMunic(self):
+        self.retrieveData.setGraph(self.defaultGraphs[3])
+        response = self.retrieveData.getAll()
+        return response
+
+    def getHistMunicTypes(self):
+        self.retrieveData.setGraph(self.defaultGraphs[3])
+        response = self.retrieveData.getTypes()
+        return response
+    
+    def getHistMunicPredicates(self):
+        self.retrieveData.setGraph(self.defaultGraphs[3])
+        response = self.retrieveData.getAllPredicates()
+        return response
