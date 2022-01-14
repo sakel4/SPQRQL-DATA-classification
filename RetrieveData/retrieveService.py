@@ -1,7 +1,7 @@
-from Retrieve import Retrieve
+from Retrieve import retrieve
 
 
-class RetrieveService:
+class retrieveService:
 
     defaultGraphs = [
         "http://localhost:8890/BNF",
@@ -11,9 +11,9 @@ class RetrieveService:
     ]
 
     def __init__(self):
-        self.retrive = Retrieve()
+        self.retrieveData = retrieve()
 
     def getAllBNF(self):
-        self.retrive.setGraph(self.defaultGraphs[0])
+        self.retrieveData.setGraph(self.defaultGraphs[0])
         response = self.retrive.getAll()
         print(len(response))
