@@ -14,6 +14,7 @@ class retrieve:
         
     #functions
     def setGraph(self, graphURl):
+        self.sparql.clearParameter("default-graph-uri")
         self.sparql.addParameter("default-graph-uri", graphURl)
 
     def getAll(self):
@@ -21,7 +22,6 @@ class retrieve:
         response = []
         while True:
             self.sparql.setQuery("""
-            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
             SELECT ?x ?y ?z
             WHERE { ?x ?y ?z } offset """
                 + str(offset)
@@ -44,7 +44,6 @@ class retrieve:
     def getTypes(self):
         self.sparql.setQuery(
             """
-        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
         select DISTINCT ?z where {
             ?x rdf:type ?z
         } 
@@ -60,7 +59,6 @@ class retrieve:
     def getAllPredicates(self):
         self.sparql.setQuery(
             """
-        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
         select DISTINCT ?y where {
             ?x ?y ?z
         } 

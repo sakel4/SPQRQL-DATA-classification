@@ -24,7 +24,7 @@
 
     > ## Create Environment:
 
--   Linux/Mac OS:
+-   Linux/Mac OS:(on linux works without the creation of the virtual environment)
     ```bash
     $ mkdir myproject
     $ cd myproject
@@ -37,7 +37,7 @@
     $ py -3 -m venv venv
     ```
 
-> ## Activate Environment:
+> ## Activate Environment (requires the environment creation):
 
 -   Linux/Mac OS:
     ```bash

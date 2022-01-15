@@ -6,4 +6,4 @@ class Domains(enum.Enum):
     BNF = 0
     DB_PEDIA = 1
     CONFERENCE = 2
-    HUSTIC_MUNIC = 3
+    HIST_MUNIC = 3

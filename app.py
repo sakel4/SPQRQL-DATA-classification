@@ -1,65 +1,54 @@
-from flask import Flask
+from flask import Flask,request
+import json
 from RetrieveData.retrieveService import retrieveService
-
+from RetrieveData.DomainsEnum import Domains
 
 app = Flask(__name__)
 
 
 rt = retrieveService();
     
+def checkIfDatasetExist(dataset):
+    for domain in Domains:
+        if(dataset==domain.name):
+            return domain
+            break;
+    return None;
+
 #region #BNF
-@app.route("/BNFtriplets")
+@app.route("/triplets")
 def getAllBNFTriplets():
-    return rt.getAllBNF();
+    #return 400 status code and error message about missing dataset
+    if(request.args.get("dataset")==None):
+        return json.dumps({"error": "This dataset is missing"}),400
+    #search if dataset exist
+    dataset = checkIfDatasetExist(request.args.get("dataset"))
+    #return 400 status code and error message about dataset parameter value does not match with our datasets
+    if(dataset == None):
+        return json.dumps({"error": "This dataset does not exist"}),400
+    return rt.getAllTriplets(dataset);
 
 @app.route("/types")
 def getAllBNFTypes():
-    return rt.getBNFtypes();
+        #return 400 status code and error message about missing dataset
+    if(request.args.get("dataset")==None):
+        return json.dumps({"error": "This dataset is missing"}),400
+    #search if dataset exist
+    dataset = checkIfDatasetExist(request.args.get("dataset"))
+    #return 400 status code and error message about dataset parameter value does not match with our datasets
+    if(dataset == None):
+        return json.dumps({"error": "This dataset does not exist"}),400
+    return rt.getTypes(dataset);
 
 @app.route("/predicates")
 def getAllBNFPredicates():
-    return rt.getAllBNF();
+        #return 400 status code and error message about missing dataset
+    if(request.args.get("dataset")==None):
+        return json.dumps({"error": "This dataset is missing"}),400
+    #search if dataset exist
+    dataset = checkIfDatasetExist(request.args.get("dataset"))
+    #return 400 status code and error message about dataset parameter value does not match with our datasets
+    if(dataset == None):
+        return json.dumps({"error": "This dataset does not exist"}),400
+    return rt.getPredicates(dataset);
 #endregion
-
-#region #DBpedia
-@app.route("/DBPediaTriplets")
-def getAllDBPediaTriplets():
-    return rt.getAllDBPedia();
-
-@app.route("/DBpediaTypes")
-def getAllDBpediaTypes():
-    return rt.getDBPediaTypes();
-
-@app.route("/DBpediaPredicates")
-def getAllDBpediaPredicates():
-    return rt.getDBPediaPredicates();
-#endregion
-
-#region #Conference
-@app.route("/ConferenceTriplets")
-def getAllConferenceTriplets():
-    return rt.getAllConference();
-
-@app.route("/Conferencetypes")
-def getAllConferenceTypes():
-    return rt.getConferenceTypes();
-
-@app.route("/Conferencepredicates")
-def getAllConferencePredicates():
-    return rt.getConferencePredicates();
-#endregion
-
-#region #HistMunic    
-@app.route("/HistMunicTriplets")
-def getAllHistMunicTriplets():
-    return rt.getAllHistMunic();
-
-@app.route("/HistMunicTypes")
-def getAllHistMunicTypes():
-    return rt.getHistMunicTypes();
-
-@app.route("/HistMunicPredicates")
-def getAllHistMunicPredicates():
-    return rt.getHistMunicPredicates();
-#endregion
-
