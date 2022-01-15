@@ -1,7 +1,7 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
 import json
 
-class retrieve:
+class Retrieve:
 
     domain = "http://83.212.77.24:8890/sparql/"
     #constructor

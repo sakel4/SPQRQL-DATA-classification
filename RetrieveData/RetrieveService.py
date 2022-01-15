@@ -1,7 +1,7 @@
-from .retrieve import retrieve
+from .Retrieve import Retrieve
 
 
-class retrieveService:
+class RetrieveService:
 
     defaultGraphs = [
         "http://localhost:8890/BNF",
@@ -11,7 +11,7 @@ class retrieveService:
     ]
 
     def __init__(self):
-        self.retrieveData = retrieve()
+        self.retrieveData = Retrieve()
 
     #region #generic
     def getAllTriplets(self,domain):

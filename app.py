@@ -1,12 +1,13 @@
 from flask import Flask,request
 import json
-from RetrieveData.retrieveService import retrieveService
+from RetrieveData.RetrieveService import RetrieveService
 from RetrieveData.DomainsEnum import Domains
+from Classification.MachineLearning import MachineLearning
 
 app = Flask(__name__)
 
 
-rt = retrieveService();
+rt = RetrieveService();
     
 def checkIfDatasetExist(dataset):
     for domain in Domains:
@@ -15,9 +16,9 @@ def checkIfDatasetExist(dataset):
             break;
     return None;
 
-#region #BNF
+#region #endpoints
 @app.route("/triplets")
-def getAllBNFTriplets():
+def getAllTriplets():
     #return 400 status code and error message about missing dataset
     if(request.args.get("dataset")==None):
         return json.dumps({"error": "This dataset is missing"}),400
@@ -29,7 +30,7 @@ def getAllBNFTriplets():
     return rt.getAllTriplets(dataset);
 
 @app.route("/types")
-def getAllBNFTypes():
+def getAllTypes():
         #return 400 status code and error message about missing dataset
     if(request.args.get("dataset")==None):
         return json.dumps({"error": "This dataset is missing"}),400
@@ -41,7 +42,7 @@ def getAllBNFTypes():
     return rt.getTypes(dataset);
 
 @app.route("/predicates")
-def getAllBNFPredicates():
+def getAllPredicates():
         #return 400 status code and error message about missing dataset
     if(request.args.get("dataset")==None):
         return json.dumps({"error": "This dataset is missing"}),400
@@ -51,4 +52,8 @@ def getAllBNFPredicates():
     if(dataset == None):
         return json.dumps({"error": "This dataset does not exist"}),400
     return rt.getPredicates(dataset);
+
+@app.route("/classification")
+def classifyDataset():
+    return "done"
 #endregion
