@@ -22,14 +22,14 @@ class retrieve:
         response = []
         while True:
             self.sparql.setQuery("""
-            SELECT ?x ?y ?z
-            WHERE { ?x ?y ?z } offset """
+            SELECT ?subject ?predicate ?object
+            WHERE { ?subject ?predicate ?object } offset """
                 + str(offset)
                 + """LIMIT 10000""")
             results = self.sparql.query().convert()
             # print(offset)
             response.extend(results["results"]["bindings"])
-            if len(results["results"]["bindings"]) == 0:
+            if((len(results["results"]["bindings"])) == 0):
                 break
             else:
                 print("offset: " + str(offset) + " length: "+ str(len(results["results"]["bindings"])))
@@ -44,8 +44,8 @@ class retrieve:
     def getTypes(self):
         self.sparql.setQuery(
             """
-        select DISTINCT ?z where {
-            ?x rdf:type ?z
+        select DISTINCT ?object where {
+            ?subject rdf:type ?object
         } 
         """
         )
@@ -59,8 +59,8 @@ class retrieve:
     def getAllPredicates(self):
         self.sparql.setQuery(
             """
-        select DISTINCT ?y where {
-            ?x ?y ?z
+        select DISTINCT ?predicate where {
+            ?subject ?predicate ?object
         } 
         """
         )
