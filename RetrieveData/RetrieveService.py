@@ -15,20 +15,26 @@ class RetrieveService:
 
     #region #generic
     def getAllTriplets(self,domain):
-        print(self.defaultGraphs[domain.value])
+        # print(self.defaultGraphs[domain.value])
         self.retrieveData.setGraph(self.defaultGraphs[domain.value])
         response = self.retrieveData.getAll()
         return response
 
     def getTypes(self,domain):
-        print(self.defaultGraphs[domain.value])
+        # print(self.defaultGraphs[domain.value])
         self.retrieveData.setGraph(self.defaultGraphs[domain.value])
         response = self.retrieveData.getTypes()
         return response
     
     def getPredicates(self,domain):
-        print(self.defaultGraphs[domain.value])
+        # print(self.defaultGraphs[domain.value])
         self.retrieveData.setGraph(self.defaultGraphs[domain.value])
         response = self.retrieveData.getAllPredicates()
+        return response
+
+    def getSubjects(self,domain):
+        # print(self.defaultGraphs[domain.value])
+        self.retrieveData.setGraph(self.defaultGraphs[domain.value])
+        response = self.retrieveData.getAllSubjects()
         return response
     #endregion

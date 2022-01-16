@@ -54,7 +54,7 @@ class Retrieve:
             "instances": results["results"]["bindings"],
             "size": len(results["results"]["bindings"])
         }
-        return jsonResponse
+        return json.dumps(jsonResponse)
         
     def getAllPredicates(self):
         self.sparql.setQuery(
@@ -69,4 +69,19 @@ class Retrieve:
             "instances": results["results"]["bindings"],
             "size": len(results["results"]["bindings"])
         }
-        return jsonResponse
+        return json.dumps(jsonResponse)
+
+    def getAllSubjects(self):
+        self.sparql.setQuery(
+            """
+        select DISTINCT ?subject where {
+            ?subject ?predicate ?object
+        } 
+        """
+        )
+        results = self.sparql.query().convert()
+        jsonResponse = {
+            "instances": results["results"]["bindings"],
+            "size": len(results["results"]["bindings"])
+        }
+        return json.dumps(jsonResponse)

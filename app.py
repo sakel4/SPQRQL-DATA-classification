@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 
 rt = RetrieveService();
+ml = MachineLearning();
     
 def checkIfDatasetExist(dataset):
     for domain in Domains:
@@ -55,5 +56,6 @@ def getAllPredicates():
 
 @app.route("/classification")
 def classifyDataset():
-    return "done"
+    return json.dumps(ml.getAndConvertToArray())
+    # return "done"
 #endregion
