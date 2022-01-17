@@ -143,14 +143,14 @@ class MachineLearning:
                     self.subjectsFeaturesWithoutType.append(currentSubjectFeatures)
             # print("Triplet that has type" + triplet["subject"]["value"])
 
-        print("Number of distinct triplets: " + str(cnt))
-        print(len(self.defaultTripletsWithType))
-        print(len(self.subjectFeaturesWithType))
-        print(len(self.subjectTypes))
-        # print(len(self.subjects))
-        print("____________________________________")
-        print(len(self.defaultTripletsWithoutType))
-        print(len(self.subjectsFeaturesWithoutType))  # something went wrong
+        # print("Number of distinct triplets: " + str(cnt))
+        # print(len(self.defaultTripletsWithType))
+        # print(len(self.subjectFeaturesWithType))
+        # print(len(self.subjectTypes))
+        # # print(len(self.subjects))
+        # print("____________________________________")
+        # print(len(self.defaultTripletsWithoutType))
+        # print(len(self.subjectsFeaturesWithoutType))  # something went wrong
         return json.dumps(
             {
                 "Dataset": dataset.name,
