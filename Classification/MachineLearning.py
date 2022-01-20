@@ -51,8 +51,8 @@ class MachineLearning:
                 predicate["predicate"]["value"]
                 == "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
             ):
-                print("true")
-                print(predicates.index(predicate))
+                # print("true")
+                # print(predicates.index(predicate))
                 predicates.pop(predicates.index(predicate))
                 break
         return predicates
@@ -127,9 +127,11 @@ class MachineLearning:
 
             if triplet["predicate"]["value"] == self.type:
                 hasType = True
-                currentSubjectFeatures[
-                    self.getPredicateIndex(triplet["predicate"]["value"])
-                ] = 1
+                currentSubjectType = self.getTypeIndex(triplet["object"]["value"])
+
+            predicateIndex = self.getPredicateIndex(triplet["predicate"]["value"])
+            if predicateIndex != -1:
+                currentSubjectFeatures[predicateIndex] = 1
 
             if triplet == triplets[(len(triplets) - 1)]:
                 if hasType == True:
@@ -160,18 +162,23 @@ class MachineLearning:
                     self.defaultTripletsWithoutType
                 ),
                 "Number of distinct subjects": len(self.subjects),
+                "datasetPredicates": self.predicates,
+                "datsetTypes": self.types,
+                "featuresTriplets": self.defaultTripletsWithType,
+                "features": self.subjectFeaturesWithType,
+                "types": self.subjectTypes,
             }
         )
 
     def classify(self):
         # import data
-        dataset = pd.read_csv("Social_Network_Ads.csv")
-        X = dataset.iloc[:, :-1].values
-        y = dataset.iloc[:, -1].values
+        # dataset = pd.read_csv("Social_Network_Ads.csv")
+        # X = dataset.iloc[:, :-1].values
+        # y = dataset.iloc[:, -1].values
 
         # spliting data
         X_train, X_test, y_train, y_test = train_test_split(
-            X, y, test_size=0.25, random_state=0
+            subjectFeaturesWithType, subjectTypes, test_size=0.25, random_state=0
         )
 
         # feature scaling

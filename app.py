@@ -59,8 +59,8 @@ def getAllPredicates():
     return rt.getPredicates(dataset)
 
 
-@app.route("/classification")
-def classifyDataset():
+@app.route("/convertion")
+def convertDataset():
     # return 400 status code and error message about missing dataset
     if request.args.get("dataset") == None:
         return json.dumps({"error": "This dataset is missing"}), 400
@@ -72,6 +72,11 @@ def classifyDataset():
     return ml.getAndConvertToArray(dataset)
     # return json.dumps(ml.getAndConvertToArray())
     # return "done"
+
+
+@app.route("/classification")
+def classifyDataset():
+    return ml.classify()
 
 
 # endregion
