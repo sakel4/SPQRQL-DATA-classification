@@ -11,8 +11,13 @@ from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+
+# from sklearn.metrics.precision_score import precision_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
+from sklearn.metrics import f1_score
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
 
 # mathematic python library
 import numpy as np
@@ -20,6 +25,7 @@ import numpy as np
 # library for csv files and json
 import pandas as pd
 import json
+import time
 
 # retrieve service class
 from RetrieveData.RetrieveService import RetrieveService
@@ -33,7 +39,7 @@ class MachineLearning:
     def __init__(self):
         self.retrieveService = RetrieveService()
         # -->for ml algorithm training and testing
-        # default triplets with type [[{x,y,z},{x,y,z},{x,y,z}]
+        # default triplets with type [[{x,y,z},{x,y,z},{x,y,z}],[...],[...]]
         self.defaultTripletsWithType = []
         # array with subjects features [[0,1,0],[1,0,0],[0,1,1]]
         self.subjectFeaturesWithType = []
@@ -73,6 +79,7 @@ class MachineLearning:
 
     # gets data and convert them to arrays ready for ml algorithm classification
     def getAndConvertToArray(self, dataset):
+        self.dataset = dataset
         self.defaultTripletsWithType = []
         self.subjectFeaturesWithType = []
         self.subjectTypes = []
@@ -86,10 +93,6 @@ class MachineLearning:
         self.predicates = self.removeTypePredicate(
             json.loads(self.retrieveService.getPredicates(dataset))["instances"]
         )
-        # subjects
-        self.subjects = json.loads(self.retrieveService.getSubjects(dataset))[
-            "instances"
-        ]
         # all triplets
         triplets = json.loads(self.retrieveService.getAllTriplets(dataset))["instances"]
         triplets.sort(key=lambda x: x["subject"]["value"], reverse=False)
@@ -108,7 +111,6 @@ class MachineLearning:
             if triplet["subject"]["value"] != currentSubject:
                 cnt = cnt + 1
                 currentSubject = triplet["subject"]["value"]
-                # print(hasType)
                 if hasType == True:
                     self.defaultTripletsWithType.append(currentSubjectDefaultTriplets)
                     self.subjectFeaturesWithType.append(currentSubjectFeatures)
@@ -121,7 +123,6 @@ class MachineLearning:
                 hasType = False
                 currentSubjectDefaultTriplets = []
                 currentSubjectFeatures = [0] * len(self.predicates)
-                # print(hasType)
 
             currentSubjectDefaultTriplets.append(triplet)
 
@@ -143,61 +144,161 @@ class MachineLearning:
                         currentSubjectDefaultTriplets
                     )
                     self.subjectsFeaturesWithoutType.append(currentSubjectFeatures)
-            # print("Triplet that has type" + triplet["subject"]["value"])
 
-        # print("Number of distinct triplets: " + str(cnt))
-        # print(len(self.defaultTripletsWithType))
-        # print(len(self.subjectFeaturesWithType))
-        # print(len(self.subjectTypes))
-        # # print(len(self.subjects))
-        # print("____________________________________")
-        # print(len(self.defaultTripletsWithoutType))
-        # print(len(self.subjectsFeaturesWithoutType))  # something went wrong
-        return json.dumps(
-            {
-                "Dataset": dataset.name,
-                "Number of distinct triplets": cnt,
-                "Number of distinct triplets with type": len(self.subjectTypes),
-                "Number of distinct triplets without type": len(
-                    self.defaultTripletsWithoutType
-                ),
-                "Number of distinct subjects": len(self.subjects),
-                "datasetPredicates": self.predicates,
-                "datsetTypes": self.types,
-                "featuresTriplets": self.defaultTripletsWithType,
-                "features": self.subjectFeaturesWithType,
-                "types": self.subjectTypes,
-            }
-        )
-
-    def classify(self):
-        # import data
-        # dataset = pd.read_csv("Social_Network_Ads.csv")
-        # X = dataset.iloc[:, :-1].values
-        # y = dataset.iloc[:, -1].values
+    def classify(self, dataset, statistics):
+        self.getAndConvertToArray(dataset)
+        self.startTime = time.time()
 
         # spliting data
         X_train, X_test, y_train, y_test = train_test_split(
-            subjectFeaturesWithType, subjectTypes, test_size=0.25, random_state=0
+            self.subjectFeaturesWithType,
+            self.subjectTypes,
+            test_size=0.30,
+            random_state=2,
         )
 
         # feature scaling
         sc = StandardScaler()
         X_train = sc.fit_transform(X_train)
         X_test = sc.transform(X_test)
-
-        # train
-        classifier = SVC(kernel="rbf", random_state=0)  # SVC machine learning algorithm
-        # classifier = KNeighborsClassifier(n_neighbors = 5, metric = 'minkowski') #KNN machine learning algorithm
+        # SVC machine learning algorithm
+        classifier = SVC(kernel="rbf", random_state=0)
         classifier.fit(X_train, y_train)
-
         # prediction
-        y_pred = classifier.predict(X_test)
-        # print(classifier.predict_proba(X_test))
-        # print(np.concatenate((y_pred.reshape(len(y_pred),1), y_test.reshape(len(y_test),1)),1))
+        y_pred = np.array(classifier.predict(X_test))
+        y_test = np.array(y_test)
 
-        # print confusion matrix, accuracy  score and results report
-        cm = confusion_matrix(y_test, y_pred)
-        print(cm)
-        print(accuracy_score(y_test, y_pred))
-        print(classification_report(y_test, y_pred))
+        FeaturesForPrediction = []
+        newPredictions = []
+        if len(self.subjectsFeaturesWithoutType):
+            # subjcts feature matrix without types
+            FeaturesForPrediction = sc.transform(self.subjectsFeaturesWithoutType)
+            newPredictions = classifier.predict(FeaturesForPrediction)
+
+        # merge known with predicted
+        self.subjectFeaturesWithType.extend(self.subjectsFeaturesWithoutType)
+        self.subjectTypes.extend(newPredictions)
+        self.defaultTripletsWithType.extend(self.defaultTripletsWithoutType)
+
+        if statistics:
+            return self.generateStatistics(
+                y_test, y_pred, self.generateTypePatternsStatistics()
+            )
+        else:
+            return json.dumps(
+                {
+                    "subjectsTriplets": np.array(self.defaultTripletsWithType).tolist(),
+                    "subjectsTypes": self.convertToTypeTriplet(self.subjectTypes),
+                }
+            )
+
+    def convertToTypeTriplet(self, typesList):
+        returnTypes = []
+        for type in typesList:
+            returnTypes.append(self.types[type])
+
+        return returnTypes
+
+    def generateStatistics(
+        self, testFeaturesMatrix, predictionsTargetVectorMatrix, typeStatistics
+    ):
+        cm = confusion_matrix(testFeaturesMatrix, predictionsTargetVectorMatrix)
+        # print(cm)
+        FP = cm.sum(axis=0) - np.diag(cm)
+        FN = cm.sum(axis=1) - np.diag(cm)
+        TP = np.diag(cm)
+        TN = cm.sum() - (FP + FN + TP)
+        FP = FP.astype(float)
+        FN = FN.astype(float)
+        TP = TP.astype(float)
+        TN = TN.astype(float)
+        # Sensitivity, hit rate, recall, or true positive rate
+        TPR = TP / (TP + FN)
+        # Fall out or false positive rate
+        FPR = FP / (FP + TN)
+        # print(cm)
+        # print(accuracy_score(y_test, y_pred))
+        # print(classification_report(y_test, y_pred))
+
+        TPRsum = sum(TPR.tolist())
+        FPRsum = sum(FPR.tolist())
+
+        # print(precision_score(y_test, y_pred))
+        self.finishTime = time.time()
+        return json.dumps(
+            {
+                "algorithm": "SVM",
+                "dataset": self.dataset.name,
+                "types": typeStatistics,
+                "statistics": {
+                    "executionTime": (self.finishTime - self.startTime) * 1000,
+                    "precision": precision_score(
+                        testFeaturesMatrix,
+                        predictionsTargetVectorMatrix,
+                        average="weighted",
+                    ),
+                    "recall": recall_score(
+                        testFeaturesMatrix,
+                        predictionsTargetVectorMatrix,
+                        average="weighted",
+                    ),
+                    "fMeasure": f1_score(
+                        testFeaturesMatrix,
+                        predictionsTargetVectorMatrix,
+                        average="weighted",
+                    ),
+                    "truePositivePercentage": TPRsum / len(TPR),
+                    "falsePositivePercentage": FPRsum / len(TPR),
+                }
+                # "accuracy_score": accuracy_score,
+                # "classification_report": classification_report,
+            }
+        )
+
+    def generateTypePatternsStatistics(self):
+        typesStats = []
+        for index in range(len(self.types)):
+            instances = self.subjectTypes.count(index)
+            typesStats.append(
+                {
+                    "type_id": self.types[index]["object"]["value"],
+                    "typeName": self.types[index]["object"]["value"].split("/")[-1],
+                    "instancesFound": instances,
+                    "patterns": self.findTypesPatterns(index),
+                    "relations": [],
+                    "fiveExampleInstances": self.getFiveInstances(instances, index),
+                }
+            )
+
+        return typesStats
+
+    def findTypesPatterns(self, typeIndex):
+        typesPatterns = []
+        for index in range(len(self.subjectTypes)):
+            if self.subjectTypes[index] == typeIndex:
+                triplets = self.defaultTripletsWithType[index]
+                pattern = []
+                for triplet in triplets:
+                    if triplet["predicate"]["value"] != self.type:
+                        pattern.append(triplet["predicate"]["value"])
+                if len(pattern) > 0:
+                    if typesPatterns.count(pattern) == 0:
+                        typesPatterns.append(pattern)
+
+        return typesPatterns
+
+    def getFiveInstances(self, numberOfInstances, typeIndex):
+        returnInstances = 0
+        if numberOfInstances > 5:
+            returnInstances = 5
+        else:
+            returnInstances = numberOfInstances
+        instances = []
+        for index in range(len(self.subjectTypes)):
+            if self.subjectTypes[index] == typeIndex:
+                triplets = self.defaultTripletsWithType[index]
+                instances.append(triplets[0]["subject"]["value"])
+                if len(instances) == returnInstances:
+                    break
+
+        return instances

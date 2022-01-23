@@ -77,19 +77,6 @@ class Retrieve:
         return json.dumps(jsonResponse)
 
     def getAllSubjects(self):
-        # self.sparql.setQuery(
-        #     """
-        # select DISTINCT ?subject where {
-        #     ?subject ?predicate ?object
-        # }
-        # """
-        # )
-        # results = self.sparql.query().convert()
-        # jsonResponse = {
-        #     "instances": results["results"]["bindings"],
-        #     "size": len(results["results"]["bindings"])
-        # }
-        # return json.dumps(jsonResponse)
         offset = 0
         response = []
         while True:
@@ -107,12 +94,6 @@ class Retrieve:
             if (len(results["results"]["bindings"])) == 0:
                 break
             else:
-                # print(
-                #     "offset: "
-                #     + str(offset)
-                #     + " length: "
-                #     + str(len(results["results"]["bindings"]))
-                # )
                 offset = offset + (len(results["results"]["bindings"]))
 
         jsonResponse = {"instances": response, "size": len(response)}

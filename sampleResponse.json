@@ -1,0 +1,42 @@
+{
+    "algorithm": "Algorithm Name",
+    "dataset": "Dataset name",
+    "types": [
+        {
+            "type_id": "type_1",
+            "typeName": "Lesson",
+            "instancesFound": 120,
+            "patterns": [
+                [
+                    "name",
+                    "surname"
+                ],
+                [
+                    "name",
+                    "address",
+                    "telephone"
+                ]
+            ],
+            "relations": [
+                {
+                    "propertyName": "property",
+                    "relatedTypeId": "type_1",
+                    "relatedInstances": 100
+                }
+            ],
+            "fiveExampleInstances": [
+                {
+                    "instance_id": "instance uid"
+                }
+            ]
+        }
+    ],
+    "statistics": {
+        "executionTime": 60,
+        "precision": 0.8,
+        "recall": 0.8,
+        "fMeasure": 0.2,
+        "truePositivePercentage": 0.4,
+        "falsePositivePercentage": 0.3
+    }
+}
