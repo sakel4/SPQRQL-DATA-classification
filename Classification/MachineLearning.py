@@ -23,7 +23,6 @@ from sklearn.metrics import recall_score
 import numpy as np
 
 # library for csv files and json
-import pandas as pd
 import json
 import time
 
