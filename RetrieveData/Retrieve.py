@@ -70,6 +70,14 @@ class Retrieve:
         """
         )
         results = self.sparql.query().convert()
+        for index in range(len(results["results"]["bindings"])):
+            if (
+                results["results"]["bindings"][index]["predicate"]["value"]
+                == "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+            ):
+                results["results"]["bindings"].pop(index)
+                break
+
         jsonResponse = {
             "instances": results["results"]["bindings"],
             "size": len(results["results"]["bindings"]),

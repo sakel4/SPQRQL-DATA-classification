@@ -1,5 +1,33 @@
 # ClassificationApp
+> ## API Endpoints:
 
+- /triplets?dataset=BNF
+    - **parameters**
+        - dataset (possible values: BNF,DB_PEDIA,CONFERENCE,HIST_MUNIC)
+    - **return value**
+        - all dataset triplets
+- /types?dataset=BNF
+    - **parameters**
+        - dataset (possible values: BNF,DB_PEDIA,CONFERENCE,HIST_MUNIC)
+    - **return value**
+        - all dataset distinct types
+- /predicates?dataset=BNF
+    - **parameters**
+        - dataset (possible values: BNF,DB_PEDIA,CONFERENCE,HIST_MUNIC)
+    - **return value**
+        - all dataset distinct predicates
+- /subjects?dataset=BNF
+    - **parameters**
+        - dataset (possible values: BNF,DB_PEDIA,CONFERENCE,HIST_MUNIC)
+    - **return value**
+        - all dataset distinct subject
+- /classification?dataset=BNF&statistics=true
+    - **parameters**
+        - dataset (possible values: BNF,DB_PEDIA,CONFERENCE,HIST_MUNIC)
+        - statistics (possible values: true or false)
+    - **return value**
+        - ***if statistics equal false:*** all subjects triplets and types
+        - ***if statistics equal true:*** statistics object (structure available in sampleResponse.json)
 > ## Prerequisites:
 
 -   Python:
