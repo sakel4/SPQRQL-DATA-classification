@@ -1,12 +1,6 @@
 # svm alogrithm
 from sklearn.svm import SVC
 
-# similarity algorithms
-# from sklearn.metrics.pairwise import cosine_distances
-# from sklearn.metrics.pairwise import euclidean_distances
-# from sklearn.metrics.pairwise import manhattan_distances
-# from sklearn.metrics import pairwise_distances #default algorithm euclidean
-
 # sklearn functions(score,train datset,data scaling,  confusion matrix and results report)
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
@@ -56,8 +50,6 @@ class MachineLearning:
                 predicate["predicate"]["value"]
                 == "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
             ):
-                # print("true")
-                # print(predicates.index(predicate))
                 predicates.pop(predicates.index(predicate))
                 break
         return predicates
@@ -202,7 +194,7 @@ class MachineLearning:
         self, testFeaturesMatrix, predictionsTargetVectorMatrix, typeStatistics
     ):
         cm = confusion_matrix(testFeaturesMatrix, predictionsTargetVectorMatrix)
-        # print(cm)
+
         FP = cm.sum(axis=0) - np.diag(cm)
         FN = cm.sum(axis=1) - np.diag(cm)
         TP = np.diag(cm)
@@ -215,9 +207,6 @@ class MachineLearning:
         TPR = TP / (TP + FN)
         # Fall out or false positive rate
         FPR = FP / (FP + TN)
-        # print(cm)
-        # print(accuracy_score(y_test, y_pred))
-        # print(classification_report(y_test, y_pred))
 
         TPRsum = sum(TPR.tolist())
         FPRsum = sum(FPR.tolist())
@@ -248,9 +237,7 @@ class MachineLearning:
                     ),
                     "truePositivePercentage": TPRsum / len(TPR),
                     "falsePositivePercentage": FPRsum / len(TPR),
-                }
-                # "accuracy_score": accuracy_score,
-                # "classification_report": classification_report,
+                },
             }
         )
 
