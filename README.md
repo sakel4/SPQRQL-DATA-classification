@@ -44,11 +44,6 @@
     ```bash
     pip install scikit-learn
     ```
--   Pandas:
-
-    ```bash
-    pip install pandas
-    ```
 > ## Create Environment:
 
 -   Linux/Mac OS:(on linux works without the creation of the virtual environment)
