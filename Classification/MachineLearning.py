@@ -247,34 +247,6 @@ class MachineLearning:
             instances = self.subjectTypes.count(index)
             relations = []
 
-            for i in range(len(self.subjectTypes)):
-                # current subject id
-                subjectType = self.types[self.subjectTypes[i]]["object"]["value"]
-                # check if it is the same with the current type
-                if subjectType == self.types[index]["object"]["value"]:
-                    # check in tiplets
-                    for triplet in self.defaultTripletsWithType[i]:
-                        # print(triplet["object"]["value"])
-                        # search if the object is subject
-                        currentType = self.findIfItIsSubject(triplet["object"]["value"])
-                        if currentType != None:
-                            if (
-                                self.checkIfRelationExists(
-                                    relations,
-                                    triplet["predicate"]["value"],
-                                    currentType,
-                                    # triplet,
-                                )
-                                == False
-                            ):
-                                relations.append(
-                                    {
-                                        "propertyName": triplet["predicate"]["value"],
-                                        "relatedTypeId": currentType,
-                                        "relatedInstances": 1,
-                                        # "triplet": [triplet],
-                                    }
-                                )
             typesStats.append(
                 {
                     "type_id": self.types[index]["object"]["value"],
