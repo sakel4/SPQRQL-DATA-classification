@@ -34,4 +34,9 @@ class RetrieveService:
         response = self.retrieveData.getAllSubjects()
         return response
 
+    def getSubjectType(self, domain, subject):
+        self.retrieveData.setGraph(self.defaultGraphs[domain.value])
+        response = self.retrieveData.getSubjectType(subject)
+        return response
+
     # endregion

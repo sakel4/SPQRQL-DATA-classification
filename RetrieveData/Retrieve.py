@@ -106,3 +106,20 @@ class Retrieve:
 
         jsonResponse = {"instances": response, "size": len(response)}
         return json.dumps(jsonResponse)
+
+    def getSubjectType(self, subject):
+        self.sparql.setQuery(
+            """
+        select ?subject ?predicate ?object where {
+        ?subject ?predicate ?object .
+        ?subject rdf:type ?object .
+        FILTER ( ?subject = <"""
+            + subject
+            + """>)}"""
+        )
+        results = self.sparql.query().convert()
+        jsonResponse = {
+            "instances": results["results"]["bindings"],
+            "size": len(results["results"]["bindings"]),
+        }
+        return json.dumps(jsonResponse)

@@ -80,6 +80,10 @@ class MachineLearning:
         # api requests
         # types
         self.types = json.loads(self.retrieveService.getTypes(dataset))["instances"]
+        # subjects
+        self.subjects = json.loads(self.retrieveService.getSubjects(dataset))[
+            "instances"
+        ]
         # predicates
         self.predicates = self.removeTypePredicate(
             json.loads(self.retrieveService.getPredicates(dataset))["instances"]
@@ -248,7 +252,7 @@ class MachineLearning:
         for index in range(len(self.types)):
             instances = self.subjectTypes.count(index)
             relations = []
-
+            relations = self.generateRelations(self.types[index]["object"]["value"])
             typesStats.append(
                 {
                     "type_id": self.types[index]["object"]["value"],
@@ -263,24 +267,59 @@ class MachineLearning:
 
         return typesStats
 
+    def generateRelations(self, currentType):
+        print("Type: " + currentType)
+        relations = []
+        for index in range(len(self.subjectTypes)):
+            if currentType == self.types[self.subjectTypes[index]]["object"]["value"]:
+                for subjectTriplet in self.defaultTripletsWithType[index]:
+                    type = self.findIfItIsSubject(subjectTriplet["object"]["value"])
+                    if type != None:
+                        if (
+                            self.checkIfRelationExists(
+                                relations, subjectTriplet["predicate"]["value"], type
+                            )
+                            == False
+                        ):
+                            relations.append(
+                                {
+                                    "propertyName": subjectTriplet["predicate"][
+                                        "value"
+                                    ],
+                                    "relatedTypeId": type,
+                                    "relatedInstances": 1,
+                                }
+                            )
+        return relations
+
     def checkIfRelationExists(self, relations, property, relatedType):
         for relation in relations:
             if (
                 relation["propertyName"] == property
                 and relation["relatedTypeId"] == relatedType
             ):
-                print("1")
                 relation["relatedInstances"] = relation["relatedInstances"] + 1
-                # relation["triplet"].append(triplet)
                 return True
         return False
 
     def findIfItIsSubject(self, object):
-        for index in range(len(self.defaultTripletsWithType)):
-            subjectTriplets = self.defaultTripletsWithType[index]
-            if subjectTriplets[0]["subject"]["value"] == object:
-                return self.types[self.subjectTypes[index]]["object"]["value"]
-        return None
+        type = None
+        for subject in self.subjects:
+            # print()
+            if subject["subject"]["value"] == object:
+                for index in range(len(self.defaultTripletsWithType)):
+                    triplets = self.defaultTripletsWithType[index]
+                    if triplets[0]["subject"]["value"] == object:
+                        for triplet in triplets:
+                            if triplet["predicate"]["value"] == self.type:
+                                type = triplet["object"]["value"]
+                                break
+                        if type != None:
+                            break
+                if type != None:
+                    break
+
+        return type
 
     def findTypesPatterns(self, typeIndex):
         typesPatterns = []

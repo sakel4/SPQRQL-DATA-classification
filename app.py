@@ -19,6 +19,14 @@ def checkIfDatasetExist(dataset):
     return None
 
 
+# @app.route("/subjectTypes", methods=["GET"])
+# def getSubjectType():
+#     datasetSubject = request.args.get("subject")
+#     datasetParam = request.args.get("dataset")
+#     dataset = checkIfDatasetExist(datasetParam)
+#     return rt.getSubjectType(dataset, datasetSubject)
+
+
 # region #endpoints
 @app.route("/triplets", methods=["GET"])
 def getAllTriplets():
