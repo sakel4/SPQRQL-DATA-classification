@@ -166,6 +166,8 @@ class MachineLearning:
             FeaturesForPrediction = sc.transform(self.subjectsFeaturesWithoutType)
             newPredictions = classifier.predict(FeaturesForPrediction)
 
+        self.finishTime = time.time()
+
         # merge known with predicted
         self.subjectFeaturesWithType.extend(self.subjectsFeaturesWithoutType)
         self.subjectTypes.extend(newPredictions)
@@ -212,7 +214,7 @@ class MachineLearning:
         FPRsum = sum(FPR.tolist())
 
         # print(precision_score(y_test, y_pred))
-        self.finishTime = time.time()
+
         return json.dumps(
             {
                 "algorithm": "SVM",
