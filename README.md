@@ -1,4 +1,6 @@
 # ClassificationApp
+> ## Visualization with Relations
+- https://semanticproject.vercel.app/
 > ## API Endpoints:
 ***!!!Response time depends on the dataset size and the network connection!!!***
 - /triplets?dataset=BNF
