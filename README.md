@@ -26,7 +26,7 @@
 - /classification?dataset=BNF&statistics=true
     - **parameters**
         - dataset (possible values: BNF,DB_PEDIA,CONFERENCE,HIST_MUNIC)
-        - statistics (possible values: true or false)
+        - !REMOVED DUE TO PERFORMANCE ISSUES! statistics (possible values: true or false)
     - **return value**
         - ***if statistics equal false:*** all subjects triplets and types
         - ***if statistics equal true:*** statistics object (structure available in sampleResponse.json)
@@ -78,13 +78,13 @@
     ```bash
     $ export FLASK_RUN_PORT=5000
     $ export FLASK_APP=__filename__
-    $ export FLASK_ENV=development
+    $ export FLASK_DEBUG=true
     $ flask run
     ```
 -   Windows(CMD):
     ```bash
     $ set FLASK_RUN_PORT=5000
     $ set FLASK_APP=__filename__
-    $ set FLASK_ENV=development
+    $ set FLASK_DEBUG=true
     $ flask run
     ```
