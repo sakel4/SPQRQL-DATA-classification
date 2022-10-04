@@ -177,17 +177,18 @@ class MachineLearning:
         self.subjectTypes.extend(newPredictions)
         self.defaultTripletsWithType.extend(self.defaultTripletsWithoutType)
 
-        if statistics:
-            return self.generateStatistics(
-                y_test, y_pred, self.generateTypePatternsStatistics()
-            )
-        else:
-            return json.dumps(
-                {
-                    "subjectsTriplets": np.array(self.defaultTripletsWithType).tolist(),
-                    "subjectsTypes": self.convertToTypeTriplet(self.subjectTypes),
-                }
-            )
+        # Removed because generateTypePatternsStatistics is not optimized for large datasets
+        # if statistics:
+        #     return self.generateStatistics(
+        #         y_test, y_pred, self.generateTypePatternsStatistics()
+        #     )
+        # else:
+        return json.dumps(
+            {
+                "subjectsTriplets": np.array(self.defaultTripletsWithType).tolist(),
+                "subjectsTypes": self.convertToTypeTriplet(self.subjectTypes),
+            }
+        )
 
     def convertToTypeTriplet(self, typesList):
         returnTypes = []
@@ -247,6 +248,7 @@ class MachineLearning:
             }
         )
 
+    # Not optimized for large datasets
     def generateTypePatternsStatistics(self):
         typesStats = []
         for index in range(len(self.types)):
