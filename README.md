@@ -1,4 +1,4 @@
-# ClassificationApp
+# SPQRQL DATA classification
 > ## Classifcation results and statistics Visualization with Relations
 - https://semanticproject.vercel.app/
 > ## API Endpoints:
