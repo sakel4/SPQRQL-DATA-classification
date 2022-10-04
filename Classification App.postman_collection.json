@@ -1,0 +1,179 @@
+{
+	"info": {
+		"_postman_id": "2655b5c3-002c-467f-8f5c-d1c3bfac0a61",
+		"name": "Classification App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11976146"
+	},
+	"item": [
+		{
+			"name": "triplets",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/triplets?dataset=BNF",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"triplets"
+					],
+					"query": [
+						{
+							"key": "dataset",
+							"value": "BNF",
+							"description": "BNF,DB_PEDIA,CONFERENCE,HIST_MUNIC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "types",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/types?dataset=BNF",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"types"
+					],
+					"query": [
+						{
+							"key": "dataset",
+							"value": "BNF",
+							"description": "BNF,DB_PEDIA,CONFERENCE,HIST_MUNIC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "predicates",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/predicates?dataset=BNF",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"predicates"
+					],
+					"query": [
+						{
+							"key": "dataset",
+							"value": "BNF",
+							"description": "BNF,DB_PEDIA,CONFERENCE,HIST_MUNIC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "subjects",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/subjects?dataset=BNF",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"subjects"
+					],
+					"query": [
+						{
+							"key": "dataset",
+							"value": "BNF",
+							"description": "BNF,DB_PEDIA,CONFERENCE,HIST_MUNIC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "classification",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/classification?dataset=BNF&statistics=faslse",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"classification"
+					],
+					"query": [
+						{
+							"key": "dataset",
+							"value": "BNF",
+							"description": "BNF,DB_PEDIA,CONFERENCE,HIST_MUNIC"
+						},
+						{
+							"key": "statistics",
+							"value": "faslse",
+							"description": "!!! REMOVED !!!"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost",
+			"type": "string"
+		},
+		{
+			"key": "port",
+			"value": "5000",
+			"type": "string"
+		}
+	]
+}
