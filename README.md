@@ -26,7 +26,7 @@
 - /classification?dataset=BNF&statistics=true
     - **parameters**
         - dataset (possible values: BNF,DB_PEDIA,CONFERENCE,HIST_MUNIC)
-        - !REMOVED DUE TO PERFORMANCE ISSUES! statistics (possible values: true or false)
+        - ***!REMOVED DUE TO PERFORMANCE ISSUES!*** statistics (possible values: true or false)
     - **return value**
         - ***if statistics equal false:*** all subjects triplets and types
         - ***if statistics equal true:*** statistics object (structure available in sampleResponse.json)
